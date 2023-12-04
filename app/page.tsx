@@ -1,9 +1,11 @@
 'use client'
 import Image from 'next/image'
-import {useState} from 'react'
+import {useState} from 'react';
+import CreateNote from './components/CreateNote';
 
 export default function Home() {
   const [isFocused, setIsFocused] = useState(false);
+  
   return (
     <>
     <header>
@@ -18,7 +20,7 @@ export default function Home() {
         </a>
         
       </div>
-      <div className={`flex-1 flex max-w-2xl h-12 pt-0 pr-7.5 pb-0 pl-2.5 border-2 bg-AliceBlue rounded ${isFocused ? 'bg-white shadow-black-shadow-xl':'bg-AliceBlue'}`}>
+      <div className={`flex-1 flex max-w-2xl h-12 pt-0 pr-7.5 pb-0 pl-2.5 border-2 rounded ${isFocused ? 'bg-white shadow-black-shadow-xl':'bg-AliceBlue'}`}>
         <button className='w-14 h-11.5 py-0 px-1.25'>
           <img src='search.svg' className='w-10 h-10 m-0.75 p-2' />
         </button>
@@ -57,11 +59,7 @@ export default function Home() {
         <span className='h-12 ml-5 flex items-center'>Trash</span>
       </div>
     </nav>
-   <div className='flex w-full h-90 ml-70'>
-   <div className='flex w-80 h-9 bg-white mx-auto my-4 rounded-md shadow-lg justify-start items-center'>
-    <input type='text' id='add-note' className='max-w-full h-4 py-3 px-4 focus:outline-none' placeholder='Take a note...' />
-</div>
-    </div>
+  <CreateNote />
 
     </main>
     </>
