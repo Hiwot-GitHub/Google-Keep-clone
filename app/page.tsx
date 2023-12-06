@@ -1,7 +1,10 @@
 'use client'
 import Image from 'next/image'
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import CreateNote from './components/CreateNote';
+import { error } from 'console';
+
+
 
 export default function Home() {
   const [isFocused, setIsFocused] = useState(false);
@@ -60,8 +63,12 @@ export default function Home() {
       </div>
     </nav>
   <CreateNote />
+  <div>
 
+  
+  </div>
+ 
     </main>
     </>
   )
-}
+  }
