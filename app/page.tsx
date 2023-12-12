@@ -3,6 +3,8 @@ import Image from 'next/image'
 import {useState, useEffect} from 'react';
 import CreateNote from './components/CreateNote';
 import { error } from 'console';
+import Link from 'next/link';
+import { signIn } from 'next-auth/react';
 
 
 
@@ -32,6 +34,7 @@ export default function Home() {
           <button className='w-10 h-10 p-2 mr-0.75 right-0 z-10 ml-1 relative hover:bg-AliceBlue rounded-full'><img src='close.svg' /></button>
         
       </div>
+      <Link href="/api/auth/signin" className='ml-8'>Login</Link>
      
     </div>
     </header>

@@ -1,9 +1,11 @@
 'use client';
 import {JSXElementConstructor, PromiseLikeOfReactNode, ReactElement, ReactNode, ReactPortal, SetStateAction, useState, useEffect} from 'react';
-import { POST } from '../Api/Notes/route';
+import { POST } from '../api/Notes/route';
 import { json } from 'stream/consumers';
 import { stringify } from 'querystring';
 import { title } from 'process';
+import React from 'react';
+import Modal from 'react-modal';
 
 
 
@@ -26,7 +28,7 @@ const  CreateNote = () => {
   useEffect(() => {
     const getNotes = async () => {
       try{
-        const response = await fetch('http://localhost:3000/Api/Notes');
+        const response = await fetch('http://localhost:3000/api/Notes');
         if (!response.ok){
           throw new Error('Network error');
         }
@@ -54,7 +56,7 @@ const  CreateNote = () => {
     setIsFocused(false);
     const postNote = async () => {
       try{
-        const response = await fetch('http://localhost:3000/Api/Notes', {
+        const response = await fetch('http://localhost:3000/api/Notes', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -111,18 +113,17 @@ const  CreateNote = () => {
     );
 }
 
-const DisplayNote: React.FC<{note: Note}> =({note})  =>{
+const DisplayNote: React.FC<{note: Note}> = ({note})  => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newTitle, setNewTitle] = useState(note.title || '');
+  const [newContent, setNewContent] = useState(note.content || '');
 
   const openModal = () =>{
     setIsModalOpen(true);
   }
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  }
   const handleDelete = (note_id: Number) => {
-    const url = `http://localhost:3000/Api/Notes/${note_id.toString()}`;
+    const url = `http://localhost:3000/api/Notes/${note_id.toString()}`;
     
     const deleteNote = async () => {
       try{
@@ -141,19 +142,62 @@ const DisplayNote: React.FC<{note: Note}> =({note})  =>{
   }
   deleteNote();
 } 
+const handleTitleChange = (event: { target: { value: SetStateAction<string>; }; }) => {
+  setNewTitle(event.target.value);
+}
+const handleContentChange = (event: {target: {value: SetStateAction<string>; }; }) => {
+  setNewContent(event.target.value);
+}
+
+const handleUpdate = (event: { preventDefault: () => void; }, note_id: Number) => {
+  event.preventDefault();
+  const url = `http://localhost:3000/api/Notes/${note_id.toString()}`;
+
+  const updateNote = async () => {
+    try{
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          title: newTitle,
+          content: newContent
+    })
+  });
+
+     if (response.ok){
+      throw new Error('Failed to delete note.')
+    }
+    
+  } catch(error){
+    console.log(error);
+  }
+  
+  }
+  updateNote();
+
+}
+
   return (
+    <>
     
-   
-    <div className="flex-col min-h-[80px] h-auto  flex w-60  shadow-md rounded-md p-1 m-auto text-xs  text-BlackRussian ">
-     <div className={`${title.length === 0 ? 'hidden': 'block'}`}><div className='w-[238px] h-[38px] pt-3 px-4 pb-0 text-sm '>{note.title}</div></div>
-      <div>{note.content}</div>
-      <div className='w-[238px] h-[34px] mb-0 mt-[26px] borde-2 border-t-2 '>
-        <button onClick={() => handleDelete(note.id)}>Delete</button>
+   <div className="flex-col min-h-[80px] h-auto  flex w-60  shadow-md rounded-md p-1 m-auto text-xs  text-BlackRussian ">
+   <button onClick={openModal} className={isModalOpen?'hidden':''}><div className={`${title.length === 0 ? 'hidden': 'block'}`}><div className='w-[238px] h-[38px] pt-3 px-4 pb-0 text-sm '>{note.title}</div></div>
+      <div>{note.content}</div></button>
+      <div className='flex w-[238px] h-[34px] mb-0 mt-[26px] borde-2 border-t-2 align-middle justify-center '> 
+        <button className='w-[18px] ' onClick={() => handleDelete(note.id)}><img src='trash.svg' /></button>
       </div>
-      </div>
-    
+    </div>
    
-    
+    <Modal isOpen={isModalOpen} onRequestClose={() => setIsModalOpen(!isModalOpen)} style={{overlay:{background: 'rgba(0,0,0,0.5)'}}} className="modal h-[121px] w-[632px] p-4 ml-80 mt-40 ">
+      <div className='modal-content shadow-md flex-col'>
+        <form onSubmit={(event) => handleUpdate(event, note.id)}>
+        <input type='text' value={newTitle} onChange={handleTitleChange} className='w-full h-auto py-2 px-4 focus:outline-none'/>
+        <textarea rows={1} cols={33} value={newContent } onChange={handleContentChange} className='w-full h-auto py-2 px-4 focus:outline-none'></textarea>
+        <button type='submit' className='bg-BlackRussian rounded-md text-white w-12 text-xs'>save</button>
+        </form>
+      </div>
+    </Modal>
+    </>
   );
              
 }
