@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import schema from "./schema";
 import { prisma } from "@/prisma/client";
+import { authOptions } from "../auth/[...nextauth]/route";
+//import { getServerSession } from "next-auth";
+
 
 //Getting all notes
 export async function GET(request: NextRequest){

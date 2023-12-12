@@ -1,15 +1,17 @@
 'use client'
 import Image from 'next/image'
-import {useState, useEffect} from 'react';
+import {useState, useEffect, Children, ReactNode,} from 'react';
 import CreateNote from './components/CreateNote';
 import { error } from 'console';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 
 
 
 export default function Home() {
   const [isFocused, setIsFocused] = useState(false);
+  const {status, data: session} = useSession();
   
   return (
     <>
@@ -34,8 +36,10 @@ export default function Home() {
           <button className='w-10 h-10 p-2 mr-0.75 right-0 z-10 ml-1 relative hover:bg-AliceBlue rounded-full'><img src='close.svg' /></button>
         
       </div>
-      <Link href="/api/auth/signin" className='ml-8'>Login</Link>
-     
+      
+      {status === 'authenticated' && <Link href={"/api/auth/signin"}>{session.user?.name}</Link> && <Link href={"/api/auth/signout"} className='ml-4'>signout</Link>}
+      {status === 'unauthenticated' && <Link href="/api/auth/signin" className='ml-8'>Login</Link>}
+    
     </div>
     </header>
     <main className='w-full h-full flex'>

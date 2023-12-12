@@ -6,6 +6,7 @@ import { stringify } from 'querystring';
 import { title } from 'process';
 import React from 'react';
 import Modal from 'react-modal';
+import { useSession } from 'next-auth/react';
 
 
 
@@ -13,7 +14,7 @@ interface Note{
   id: Number,
   title: string,
   content: string,
-  ownerid: Number
+  ownerid: string
 }
 
 
@@ -22,6 +23,7 @@ const  CreateNote = () => {
   const [inputValue, setInputValue] = useState('');
   const [title, setTitle] = useState('');
   const [notes, setNotes] = useState<Note[]>([]);
+  const {status, data: session} = useSession();
  
  
 
@@ -62,7 +64,7 @@ const  CreateNote = () => {
           body: JSON.stringify({
             title: `${title}`,
             content: `${inputValue}`,
-            ownerid: 1
+            ownerid:  'clq2cwxqd000011xj6k46km6r'
           }),
 
         });
@@ -101,7 +103,8 @@ const  CreateNote = () => {
            <div className='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-1 align-top w-full h-full m-4 '>
               
               <>
-              {notes.map(note => {
+              
+              { status === 'authenticated' && notes.map(note => {
                 return <DisplayNote note={note} />
               })}
               </>
