@@ -1,5 +1,7 @@
 'use client';
 import {JSXElementConstructor, PromiseLikeOfReactNode, ReactElement, ReactNode, ReactPortal, SetStateAction, useState, useEffect} from 'react';
+import { TfiPin2 } from "react-icons/tfi";
+import { HiOutlineTrash } from "react-icons/hi2";
 import { POST } from '../api/Notes/route';
 import { json } from 'stream/consumers';
 import { stringify } from 'querystring';
@@ -73,7 +75,9 @@ const  CreateNote = () => {
         }
       const newNote:Note = await response.json();
       
-      setNotes([newNote, ...notes]);
+      setNotes((notes) => [ ...notes, newNote]);
+      
+      
       } catch(error){
         console.log(error);
       }
@@ -81,6 +85,7 @@ const  CreateNote = () => {
     postNote();
     setInputValue('');
     setTitle('');
+    
     
   }
 
@@ -184,10 +189,15 @@ const handleUpdate = (event: { preventDefault: () => void; }, note_id: Number) =
     <>
     
    <div className="flex-col min-h-[80px] h-auto  flex w-60  shadow-md rounded-md p-1 m-auto text-xs  text-BlackRussian ">
-   <button onClick={openModal} className={isModalOpen?'hidden':''}><div className={`${title.length === 0 ? 'hidden': 'block'}`}><div className='w-[238px] h-[38px] pt-3 px-4 pb-0 text-sm '>{note.title}</div></div>
+   <button onClick={openModal} className={isModalOpen?'hidden':''}>
+    <div className='w-[42px] h-38 mt-0 ml-[200px] absolute flex align-bottom justify-start '>
+    <div className="w-[34px] h-[34px] mr-0 flex align-bottom justify-center rounded-full hover:bg-AliceBlue"><TfiPin2  /></div>
+    </div>
+    <div className={`${title.length === 0 ? 'hidden': 'block'}`}>
+    <div className='w-[238px] h-[38px] pt-3 px-4 pb-0 text-sm '>{note.title}</div></div>
       <div>{note.content}</div></button>
       <div className='flex w-[238px] h-[34px] mb-0 mt-[26px] borde-2 border-t-2 align-middle justify-center '> 
-        <button className='w-[18px] ' onClick={() => handleDelete(note.id)}><img src='trash.svg' /></button>
+        <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' onClick={() => handleDelete(note.id)}><HiOutlineTrash /></button>
       </div>
     </div>
    

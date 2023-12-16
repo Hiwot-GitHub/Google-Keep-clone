@@ -9,6 +9,7 @@ import { useSession } from 'next-auth/react';
 
 
 
+
 export default function Home() {
   const [isFocused, setIsFocused] = useState(false);
   const {status, data: session} = useSession();
@@ -37,8 +38,8 @@ export default function Home() {
         
       </div>
       
-      {status === 'authenticated' && <Link href={"/api/auth/signin"}>{session.user?.name}</Link> && <Link href={"/api/auth/signout"} className='ml-4'>signout</Link>}
-      {status === 'unauthenticated' && <Link href="/api/auth/signin" className='ml-8'>Login</Link>}
+      {session && <Link href={"/api/auth/signin"}>{session.user?.name}</Link> && <Link href={"/api/auth/signout"} className='ml-4'>signout</Link>}
+      {!session && <Link href="/api/auth/signin" className='ml-8'>Login</Link>}
     
     </div>
     </header>
