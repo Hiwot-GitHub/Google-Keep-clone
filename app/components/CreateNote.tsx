@@ -2,6 +2,12 @@
 import {JSXElementConstructor, PromiseLikeOfReactNode, ReactElement, ReactNode, ReactPortal, SetStateAction, useState, useEffect} from 'react';
 import { TfiPin2 } from "react-icons/tfi";
 import { HiOutlineTrash } from "react-icons/hi2";
+import { BiBellPlus } from "react-icons/bi";
+import { HiOutlineUserAdd } from "react-icons/hi";
+import { PiCookieLight } from "react-icons/pi";
+import { FaRegImage } from "react-icons/fa6";
+import { BiArchiveIn } from "react-icons/bi";
+import { BsThreeDotsVertical } from "react-icons/bs";
 import { POST } from '../api/Notes/route';
 import { json } from 'stream/consumers';
 import { stringify } from 'querystring';
@@ -196,8 +202,14 @@ const handleUpdate = (event: { preventDefault: () => void; }, note_id: Number) =
     <div className={`${title.length === 0 ? 'hidden': 'block'}`}>
     <div className='w-[238px] h-[38px] pt-3 px-4 pb-0 text-sm '>{note.title}</div></div>
       <div>{note.content}</div></button>
-      <div className='flex w-[238px] h-[34px] mb-0 mt-[26px] borde-2 border-t-2 align-middle justify-center '> 
+      <div className='flex w-[238px] h-[34px] mb-0 mt-[26px] borde-2 border-t-2 align-middle justify-around '> 
         <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' onClick={() => handleDelete(note.id)}><HiOutlineTrash /></button>
+        <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BiBellPlus /></button>
+        <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' >< HiOutlineUserAdd /></button>
+        <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><PiCookieLight /></button>
+        <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><FaRegImage /></button>
+        <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BiArchiveIn /></button>
+        <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BsThreeDotsVertical /></button>
       </div>
     </div>
    
