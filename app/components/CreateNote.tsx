@@ -1,5 +1,5 @@
 'use client';
-import {JSXElementConstructor, PromiseLikeOfReactNode, ReactElement, ReactNode, ReactPortal, SetStateAction, useState, useEffect} from 'react';
+import {JSXElementConstructor, PromiseLikeOfReactNode, ReactElement, ReactNode, ReactPortal, SetStateAction, useState, useEffect, useRef} from 'react';
 import { TfiPin2 } from "react-icons/tfi";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { BiBellPlus } from "react-icons/bi";
@@ -15,6 +15,7 @@ import { title } from 'process';
 import React from 'react';
 import Modal from 'react-modal';
 import { useSession } from 'next-auth/react';
+import Menu from './Menu';
 
 
 
@@ -111,10 +112,9 @@ const  CreateNote = () => {
                 </form>
            </div>  
            <div  className='flex justify-center px-16'>
-           <div className='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-1 align-top w-full h-full m-4 '>
+           <div className='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-1 align-top w-full h-full m-4'>
               
               <>
-              
               { status === 'authenticated' && notes.map(note => {
                 return <DisplayNote note={note} />
               })}
@@ -131,6 +131,9 @@ const DisplayNote: React.FC<{note: Note}> = ({note})  => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newTitle, setNewTitle] = useState(note.title || '');
   const [newContent, setNewContent] = useState(note.content || '');
+  const [isMenuVisible, setMenuVisible] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
 
   const openModal = () =>{
     setIsModalOpen(true);
@@ -191,13 +194,36 @@ const handleUpdate = (event: { preventDefault: () => void; }, note_id: Number) =
 
 }
 
+  function toggleMenu(){
+    setMenuVisible(!isMenuVisible);
+  }
+
+  function closeMenu(event: MouseEvent){
+    if (menuRef.current && !menuRef.current.contains(event.target as Node) && !btnRef.current!.contains(event.target as Node)){
+      setMenuVisible(false);
+    }
+  }
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      closeMenu(event);
+    };
+
+    // Attach the event listener when the component mounts
+    document.addEventListener('mousedown', handleClickOutside);
+
+    // Detach the event listener when the component unmounts
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [menuRef]);
+
   return (
     <>
     
-   <div className="flex-col min-h-[80px] h-auto  flex w-60  shadow-md rounded-md p-1 m-auto text-xs  text-BlackRussian ">
+   <div className="flex-col min-h-[80px] h-auto  flex w-60  shadow-md rounded-md p-1 m-auto text-xs  text-BlackRussian">
    <button onClick={openModal} className={isModalOpen?'hidden':''}>
     <div className='w-[42px] h-38 mt-0 ml-[200px] absolute flex align-bottom justify-start '>
-    <div className="w-[34px] h-[34px] mr-0 flex align-bottom justify-center rounded-full hover:bg-AliceBlue"><TfiPin2  /></div>
+    <div  className="w-[34px] h-[34px] mr-0 flex align-bottom justify-center rounded-full hover:bg-AliceBlue"><TfiPin2  /></div>
     </div>
     <div className={`${title.length === 0 ? 'hidden': 'block'}`}>
     <div className='w-[238px] h-[38px] pt-3 px-4 pb-0 text-sm '>{note.title}</div></div>
@@ -209,8 +235,11 @@ const handleUpdate = (event: { preventDefault: () => void; }, note_id: Number) =
         <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><PiCookieLight /></button>
         <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><FaRegImage /></button>
         <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BiArchiveIn /></button>
-        <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BsThreeDotsVertical /></button>
+        <button onClick={toggleMenu} ref={btnRef} className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BsThreeDotsVertical />
+        <div className='z-50' ref={menuRef}>{ isMenuVisible && <Menu />} </div></button>
+         
       </div>
+      
     </div>
    
     <Modal isOpen={isModalOpen} onRequestClose={() => setIsModalOpen(!isModalOpen)} style={{overlay:{background: 'rgba(0,0,0,0.5)'}}} className="modal h-[121px] w-[632px] p-4 ml-80 mt-40 ">
