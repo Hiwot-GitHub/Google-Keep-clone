@@ -6,42 +6,17 @@ import { error } from 'console';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 import { useSession } from 'next-auth/react';
+import Heading from './components/Heading';
 
 
 
 
 export default function Home() {
-  const [isFocused, setIsFocused] = useState(false);
-  const {status, data: session} = useSession();
   
   return (
     <>
     <header>
-    <div className='h-16 w-100% p-2 border-b-2 border-ShuterGrey flex '>
-      <div className='min-w-[232px] h-12 flex'>
-        <div className='h-12 w-12 mx-0 my-1 p-3'>
-          <img src='menu.png' />
-        </div>
-        <a className='w-24.38 h-11 flex items-center'>
-        <img src='keep_logo.png' className='h-11 w-10 mt-0 ml-0 mr-0 mb-1'/>
-        <span className='w-13.88 h-6 font-serif pt-0 pl-1 pr-0 pb-0 text-2xl text-ShuterGrey'>Keep</span>
-        </a>
-        
-      </div>
-      <div className={`flex-1 flex max-w-2xl h-12 pt-0 pr-7.5 pb-0 pl-2.5 border-2 rounded ${isFocused ? 'bg-white shadow-black-shadow-xl':'bg-AliceBlue'}`}>
-        <button className='w-14 h-11.5 py-0 px-1.25'>
-          <img src='search.svg' className='w-10 h-10 m-0.75 p-2' />
-        </button>
-        <input type='text' className='flex-1 h-11.5 py-auto px-0 border-0 mx-auto bg-AliceBlue focus:outline-none focus:bg-white transition-colors duration-0'
-        onFocus={() => setIsFocused(true)} onBlur={() => setIsFocused(false)} placeholder='Search' />
-          <button className='w-10 h-10 p-2 mr-0.75 right-0 z-10 ml-1 relative hover:bg-AliceBlue rounded-full'><img src='close.svg' /></button>
-        
-      </div>
-      
-      {session && <Link href={"/api/auth/signin"}>{session.user?.name}</Link> && <Link href={"/api/auth/signout"} className='ml-4'>signout</Link>}
-      {!session && <Link href="/api/auth/signin" className='ml-8'>Login</Link>}
-    
-    </div>
+       <Heading />
     </header>
     <main className='w-full h-full flex'>
     <nav className='flex max-w-[280px] h-full relative bg-white pt-2 px-0 pb-0'>

@@ -101,13 +101,13 @@ const  CreateNote = () => {
     return(
         <>
         <div className='flex flex-col w-full h-full ml-70 mt-4'>
-            <div className='flex-1 flex flex-col max-w-lg h-auto bg-white mx-auto my-4 rounded-md shadow-lg justify-start items-center'>
+            <div className='flex-1 flex flex-col  h-auto bg-white mx-auto my-4 rounded-md shadow-lg justify-start items-center'>
                 <form onSubmit={handleSubmit} className='w-full'>
                 <div className={!isFocused ?'hidden':'block'}>
                 <input type='text' id='title' className='w-full px-4 py-2 focus:outline-none' value={title} onChange={handleTitleChange} placeholder='Title'/></div>
                 <textarea onFocus={() => setIsFocused(true)} id='add-note' rows={1} cols={33} value={inputValue} onChange={handleInputChange}
                  className='w-full h-auto py-2 px-4 focus:outline-none' placeholder='Take a note...' ></textarea>
-                <div className={!isFocused ?'hidden':'block'}><button type='submit' className='w-10 h-10 bg-AliceBlue rounded-md text-sm'>Submit</button></div>
+                <div className={!isFocused ?'hidden':'block'}><button type='submit' className='w-10 h-10  text-xm'>Close</button></div>
                 </form>
            </div>  
            <div  className='flex justify-center px-16'>
