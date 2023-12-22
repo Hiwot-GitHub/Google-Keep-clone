@@ -108,7 +108,18 @@ const  CreateNote = () => {
                 <input type='text' id='title' className='w-full px-4 py-2 focus:outline-none' value={title} onChange={handleTitleChange} placeholder='Title'/></div>
                 <textarea onFocus={() => setIsFocused(true)} id='add-note' rows={1} cols={33} value={inputValue} onChange={handleInputChange}
                  className='w-full h-auto py-2 px-4 focus:outline-none' placeholder='Take a note...' ></textarea>
-                <div className={!isFocused ?'hidden':'block'}><button type='submit' className='w-10 h-10  text-xm'>Close</button></div>
+                <div className={!isFocused ?'hidden':'block'}>
+                <div className='flex w-full  h-[34px] mb-0 mt-[26px] borde-2 align-middle justify-around '> 
+                  <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BiBellPlus /></button>
+                  <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' >< HiOutlineUserAdd /></button>
+                  <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><PiCookieLight /></button>
+                  <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><FaRegImage /></button>
+                  <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BiArchiveIn /></button>
+                  <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BsThreeDotsVertical /></button>
+                  <button type='submit' className='w-10 h-10  text-xm'>Close</button>
+               </div>
+               
+                  </div>
                 </form>
            </div>  
            <div  className='flex justify-center px-16'>
@@ -116,7 +127,7 @@ const  CreateNote = () => {
               
               <>
               { status === 'authenticated' && notes.map(note => {
-                return <DisplayNote note={note} />
+                return <DisplayNote  key={note.id.toString()} note={note} />
               })}
               </>
             </div>
@@ -220,26 +231,26 @@ const handleUpdate = (event: { preventDefault: () => void; }, note_id: Number) =
   return (
     <>
     
-   <div className="flex-col min-h-[80px] h-auto  flex w-60  shadow-md rounded-md p-1 m-auto text-xs  text-BlackRussian">
+   <div className="group flex-col min-h-[114px] h-auto  flex w-60  shadow-md rounded-md p-1 m-auto text-xs  text-BlackRussian">
    <button onClick={openModal} className={isModalOpen?'hidden':''}>
     <div className='w-[42px] h-38 mt-0 ml-[200px] absolute flex align-bottom justify-start '>
-    <div  className="w-[34px] h-[34px] mr-0 flex align-bottom justify-center rounded-full hover:bg-AliceBlue"><TfiPin2  /></div>
+    <div  className="hidden w-[34px] h-[34px] mr-0 group-hover:block align-bottom justify-center rounded-full hover:bg-AliceBlue"><TfiPin2  /></div>
     </div>
     <div className={`${title.length === 0 ? 'hidden': 'block'}`}>
     <div className='w-[238px] h-[38px] pt-3 px-4 pb-0 text-sm '>{note.title}</div></div>
       <div>{note.content}</div></button>
-      <div className='flex w-[238px] h-[34px] mb-0 mt-[26px] borde-2 border-t-2 align-middle justify-around '> 
-        <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' onClick={() => handleDelete(note.id)}><HiOutlineTrash /></button>
+
+      <div className='hidden relative group-hover:block'>
+      <div className='flex w-[238px] h-[34px] mb-0 mt-[26px] borde-2 align-middle justify-around '> 
         <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BiBellPlus /></button>
         <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' >< HiOutlineUserAdd /></button>
         <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><PiCookieLight /></button>
         <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><FaRegImage /></button>
         <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BiArchiveIn /></button>
         <button onClick={toggleMenu} ref={btnRef} className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BsThreeDotsVertical />
-        <div className='z-50' ref={menuRef}>{ isMenuVisible && <Menu />} </div></button>
-         
+        <div className='z-50' ref={menuRef}>{ isMenuVisible && <Menu onDelete={() => handleDelete(note.id)} />} </div></button> 
       </div>
-      
+      </div>
     </div>
    
     <Modal isOpen={isModalOpen} onRequestClose={() => setIsModalOpen(!isModalOpen)} style={{overlay:{background: 'rgba(0,0,0,0.5)'}}} className="modal h-[121px] w-[632px] p-4 ml-80 mt-40 ">

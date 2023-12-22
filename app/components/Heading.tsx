@@ -4,7 +4,7 @@ import {useState } from 'react';
 import { IoMdClose } from "react-icons/io";
 import { IoIosSearch } from "react-icons/io";
 
-
+ 
 export default function Heading() {
     const {status, data: session} = useSession();
     const [isFocused, setIsFocused] = useState(false);
