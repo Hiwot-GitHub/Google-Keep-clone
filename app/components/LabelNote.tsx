@@ -11,6 +11,13 @@ const LabelNote = () => {
                 <div className="w-[18px] h-[18px] mx-0 my-[1px]"><CiSearch  /></div>
             
         </div>
+        <div className="w-[225px] h-[262px] py-[6px] px-0">
+          <div className="w-[209px] h-[29px] pt-[5px] pr-[10px] pb-[3px] pl-[10px] flex">
+           <div className="w-[18px] h-[18px] flex align-middle"><input type="checkbox" id="bakary"  /></div>
+           <div className="w-[38.7px] h-[17px] mt-0 mr-0 mb-0 ml-[7px] pt-[2px] pr-0 pb-0 pl-0 text-BlackRussian text-[13px]  font-serif"> <label htmlFor="bakary">Bakary</label></div>
+            
+          </div>
+        </div>
     </div>
   )
 }

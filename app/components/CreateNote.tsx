@@ -17,6 +17,7 @@ import Modal from 'react-modal';
 import { useSession } from 'next-auth/react';
 import Menu from './Menu';
 import LabelNote from './LabelNote';
+import Label from './Label';
 
 
 
@@ -145,6 +146,7 @@ const DisplayNote: React.FC<{note: Note}> = ({note})  => {
   const [newContent, setNewContent] = useState(note.content || '');
   const [isMenuVisible, setMenuVisible] = useState(false);
   const [isAddLabelVisible, setAddLabelVisible] = useState(false);
+  const [isActive, setIsActive] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const btnRef = useRef<HTMLDivElement>(null);
   const addLabelRef = useRef<HTMLDivElement>(null);
@@ -152,6 +154,7 @@ const DisplayNote: React.FC<{note: Note}> = ({note})  => {
 
   const openModal = () =>{
     setIsModalOpen(true);
+    
   }
 
   const handleDelete = (note_id: Number) => {
@@ -212,6 +215,7 @@ const handleUpdate = (event: { preventDefault: () => void; }, note_id: Number) =
   function toggleMenu(){
     setMenuVisible(!isMenuVisible);
     
+    
   }
 
   
@@ -253,7 +257,7 @@ const handleUpdate = (event: { preventDefault: () => void; }, note_id: Number) =
   return (
     <>
     
-   <div className="group flex-col min-h-[114px] h-auto  flex w-60  shadow-md rounded-md p-1 m-auto text-xs  text-BlackRussian">
+   <div onClick={() => setIsActive(true)} onMouseLeave={() => setIsActive(false)} className={`${isActive?'active':''} group flex-col min-h-[114px] h-auto  flex w-60  shadow-md rounded-md p-1 m-auto text-xs  text-BlackRussian hover:active`}>
    <button onClick={openModal} className={isModalOpen?'hidden':''}>
     <div className='w-[42px] h-38 mt-0 ml-[200px] absolute flex align-bottom justify-start '>
     <div  className="hidden w-[34px] h-[34px] mr-0 group-hover:block align-bottom justify-center rounded-full hover:bg-AliceBlue group-active:block"><TfiPin2  /></div>
@@ -262,7 +266,12 @@ const handleUpdate = (event: { preventDefault: () => void; }, note_id: Number) =
     <div className='w-[238px] h-[38px] pt-3 px-4 pb-0 text-sm '>{note.title}</div></div>
       <div>{note.content}</div></button>
 
-      <div className='hidden relative group-hover:block '>
+       {/* Below  is the code to display label if the not has any label*/}
+      <div className='w-[238px] h-10 py-[5px] px-[10px] flex mt-3'>
+        <Label />
+      </div>
+
+      <div className={`hidden ${isActive?'active':''} relative group-hover:block group-active:block `}>
       <div className='flex w-[238px] h-[34px] mb-0 mt-[26px] borde-2 align-middle justify-around '> 
         <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BiBellPlus /></button>
         <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' >< HiOutlineUserAdd /></button>
