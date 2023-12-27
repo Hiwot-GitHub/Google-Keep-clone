@@ -16,6 +16,7 @@ import React from 'react';
 import Modal from 'react-modal';
 import { useSession } from 'next-auth/react';
 import Menu from './Menu';
+import LabelNote from './LabelNote';
 
 
 
@@ -143,8 +144,11 @@ const DisplayNote: React.FC<{note: Note}> = ({note})  => {
   const [newTitle, setNewTitle] = useState(note.title || '');
   const [newContent, setNewContent] = useState(note.content || '');
   const [isMenuVisible, setMenuVisible] = useState(false);
+  const [isAddLabelVisible, setAddLabelVisible] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const btnRef = useRef<HTMLButtonElement>(null);
+  const btnRef = useRef<HTMLDivElement>(null);
+  const addLabelRef = useRef<HTMLDivElement>(null);
+  const btnAddLabelRef = useRef<HTMLButtonElement>(null);
 
   const openModal = () =>{
     setIsModalOpen(true);
@@ -207,26 +211,44 @@ const handleUpdate = (event: { preventDefault: () => void; }, note_id: Number) =
 
   function toggleMenu(){
     setMenuVisible(!isMenuVisible);
+    
   }
 
-  function closeMenu(event: MouseEvent){
-    if (menuRef.current && !menuRef.current.contains(event.target as Node) && !btnRef.current!.contains(event.target as Node)){
+  
+ const addLabel =  () => {
       setMenuVisible(false);
-    }
-  }
+      setAddLabelVisible(true);
+   
+  };
+
+
+ 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      closeMenu(event);
+      if (menuRef.current && btnRef.current && !menuRef.current.contains(event.target as Node) 
+            && !btnRef.current.contains(event.target as Node) ){
+          setMenuVisible(false);
+        }
+      if (addLabelRef.current && !addLabelRef.current.contains(event.target as Node)){
+        setAddLabelVisible(false);
+      }
+     
     };
+    
 
     // Attach the event listener when the component mounts
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('click', handleClickOutside);
+   
 
     // Detach the event listener when the component unmounts
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('click', handleClickOutside);
+     
     };
-  }, [menuRef]);
+  }, [isMenuVisible, isAddLabelVisible]);
+
+
+
 
   return (
     <>
@@ -234,21 +256,22 @@ const handleUpdate = (event: { preventDefault: () => void; }, note_id: Number) =
    <div className="group flex-col min-h-[114px] h-auto  flex w-60  shadow-md rounded-md p-1 m-auto text-xs  text-BlackRussian">
    <button onClick={openModal} className={isModalOpen?'hidden':''}>
     <div className='w-[42px] h-38 mt-0 ml-[200px] absolute flex align-bottom justify-start '>
-    <div  className="hidden w-[34px] h-[34px] mr-0 group-hover:block align-bottom justify-center rounded-full hover:bg-AliceBlue"><TfiPin2  /></div>
+    <div  className="hidden w-[34px] h-[34px] mr-0 group-hover:block align-bottom justify-center rounded-full hover:bg-AliceBlue group-active:block"><TfiPin2  /></div>
     </div>
     <div className={`${title.length === 0 ? 'hidden': 'block'}`}>
     <div className='w-[238px] h-[38px] pt-3 px-4 pb-0 text-sm '>{note.title}</div></div>
       <div>{note.content}</div></button>
 
-      <div className='hidden relative group-hover:block'>
+      <div className='hidden relative group-hover:block '>
       <div className='flex w-[238px] h-[34px] mb-0 mt-[26px] borde-2 align-middle justify-around '> 
         <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BiBellPlus /></button>
         <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' >< HiOutlineUserAdd /></button>
         <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><PiCookieLight /></button>
         <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><FaRegImage /></button>
         <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BiArchiveIn /></button>
-        <button onClick={toggleMenu} ref={btnRef} className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BsThreeDotsVertical />
-        <div className='z-50' ref={menuRef}>{ isMenuVisible && <Menu onDelete={() => handleDelete(note.id)} />} </div></button> 
+        <div onClick={toggleMenu} ref={btnRef} className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BsThreeDotsVertical />
+        <div className='z-50' ref={menuRef}>{ isMenuVisible && <Menu onDelete={() => handleDelete(note.id)} onAddLabel={() => addLabel()} btnRef={btnAddLabelRef} />}
+        <div className='z-50' ref={addLabelRef}> { isAddLabelVisible && !isMenuVisible &&  <LabelNote />} </div> </div></div> 
       </div>
       </div>
     </div>

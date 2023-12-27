@@ -1,13 +1,19 @@
-import React from 'react'
 
-const Menu = (props: { onDelete: () => void }) => {
+import React from 'react'
+import LabelNote from './LabelNote'
+
+
+
+const Menu = (props: { onDelete: () => void, onAddLabel: () => void, btnRef: React.LegacyRef<HTMLButtonElement> | undefined}) => {
+   
   return (
-    <div className='w-[163px] h-[236px] py-[6px] px-0 shadow-lg rounded-md z-50'>
+    <div className='w-[163px] h-[236px] py-[6px] px-0 shadow-lg rounded-md z-50 bg-white'>
         <div className='w-[163px] h-8 pt-[5px] pr-[10px] pb-[5px] pl-[17px] hover:bg-AliceBlue'>
             <button onClick={ props.onDelete} className='w-[134px] h-5 text-DarkGrayishBlue text-[14px] font-sans text-left'>Delete note</button>
         </div>
         <div className='w-[163px] h-8 pt-[5px] pr-[10px] pb-[5px] pl-[17px] hover:bg-AliceBlue'>
-            <button className='w-[134px] h-5 text-DarkGrayishBlue text-[14px] font-sans text-left'>Add label</button>
+            <button ref={props.btnRef} onClick={props.onAddLabel} className='w-[134px] h-5 text-DarkGrayishBlue text-[14px] font-sans text-left'>Add label
+           </button>
         </div>
         <div className='w-[163px] h-8 pt-[5px] pr-[10px] pb-[5px] pl-[17px] hover:bg-AliceBlue'>
             <button className='w-[134px] h-5 text-DarkGrayishBlue text-[14px] font-sans text-left'>Add drawing</button>
