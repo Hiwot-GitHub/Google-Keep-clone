@@ -64,5 +64,23 @@ model Note {
   content String
   ownerid String
   owner User @relation(fields: [ownerid], references: [id], onDelete: Cascade)
+  labels  Label[]  @relation("NoteLabel")
+  noteLabels NoteLabel[]
 
+}
+
+model Label {
+   id Int @id @default(autoincrement())
+   name String @unique
+   notes Note[]  @relation("NoteLabel")
+   noteLabels NoteLabel[]
+}
+
+model NoteLabel{
+  noteId Int
+  labelId Int
+  note    Note @relation(fields: [noteId], references: [id])
+  label   Label @relation(fields: [labelId], references: [id])
+
+ @@id([noteId, labelId])
 }

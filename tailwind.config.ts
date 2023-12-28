@@ -19,6 +19,8 @@ const config: Config = {
         BlackRussian: '#202124',
         Oasis: '#FEEFCE',
         DarkGrayishBlue: '#3c4043',
+        AliceBlueDark: '#e6eaeb',
+        Charchol: '#262626',
       },
     },
   },

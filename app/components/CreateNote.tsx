@@ -147,6 +147,12 @@ const DisplayNote: React.FC<{note: Note}> = ({note})  => {
   const [isMenuVisible, setMenuVisible] = useState(false);
   const [isAddLabelVisible, setAddLabelVisible] = useState(false);
   const [isActive, setIsActive] = useState(false);
+  const [isBtnTwo, setIsBtnTwo] = useState(false);
+  const [isBtnThree, setIsBtnThree] = useState(false);
+  const [isBtnFour, setIsBtnFour] = useState(false);
+  const [isBtnFive, setIsBtnFive] = useState(false);
+  const [isBtnOne, setIsBtnOne] = useState(false);
+  const [isBtnSix, setIsBtnSix] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const btnRef = useRef<HTMLDivElement>(null);
   const addLabelRef = useRef<HTMLDivElement>(null);
@@ -214,6 +220,8 @@ const handleUpdate = (event: { preventDefault: () => void; }, note_id: Number) =
 
   function toggleMenu(){
     setMenuVisible(!isMenuVisible);
+    setIsBtnSix(false);
+    
     
     
   }
@@ -222,6 +230,8 @@ const handleUpdate = (event: { preventDefault: () => void; }, note_id: Number) =
  const addLabel =  () => {
       setMenuVisible(false);
       setAddLabelVisible(true);
+      setIsBtnSix(false);
+      
    
   };
 
@@ -257,7 +267,7 @@ const handleUpdate = (event: { preventDefault: () => void; }, note_id: Number) =
   return (
     <>
     
-   <div onClick={() => setIsActive(true)} onMouseLeave={() => setIsActive(false)} className={`${isActive?'active':''} group flex-col min-h-[114px] h-auto  flex w-60  shadow-md rounded-md p-1 m-auto text-xs  text-BlackRussian hover:active`}>
+   <div onClick={() => setIsActive(true)} onMouseLeave={() => setIsActive(false)} className={`group ${isActive?'active':''} flex-col min-h-[174px] h-auto  flex w-60  shadow-md rounded-md p-1 m-auto text-xs  text-BlackRussian relative `}>
    <button onClick={openModal} className={isModalOpen?'hidden':''}>
     <div className='w-[42px] h-38 mt-0 ml-[200px] absolute flex align-bottom justify-start '>
     <div  className="hidden w-[34px] h-[34px] mr-0 group-hover:block align-bottom justify-center rounded-full hover:bg-AliceBlue group-active:block"><TfiPin2  /></div>
@@ -271,14 +281,14 @@ const handleUpdate = (event: { preventDefault: () => void; }, note_id: Number) =
         <Label />
       </div>
 
-      <div className={`hidden ${isActive?'active':''} relative group-hover:block group-active:block `}>
+      <div className={`hidden absolute group-hover:block group-active:block mt-[114px]`}>
       <div className='flex w-[238px] h-[34px] mb-0 mt-[26px] borde-2 align-middle justify-around '> 
-        <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BiBellPlus /></button>
-        <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' >< HiOutlineUserAdd /></button>
-        <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><PiCookieLight /></button>
-        <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><FaRegImage /></button>
-        <button className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BiArchiveIn /></button>
-        <div onClick={toggleMenu} ref={btnRef} className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BsThreeDotsVertical />
+        <button onMouseEnter={() => setIsBtnOne(true)} onMouseLeave={() => setIsBtnOne(false)} onClick={() => setIsBtnOne(false)} className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BiBellPlus />{isBtnOne && <div className='w-16 bg-Charchol text-slate-50 ml-[-30px]'>Remind me</div>}</button>
+        <button onMouseEnter={() => setIsBtnTwo(true)} onMouseLeave={() => setIsBtnTwo(false)}  className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' >< HiOutlineUserAdd />{isBtnTwo && <div className='w-18 bg-Charchol text-slate-50 ml-[-16px] mr-[-16px]'>Collaborator</div>}</button>
+        <button onMouseEnter={() => setIsBtnThree(true)} onMouseLeave={() => setIsBtnThree(false)}  className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><PiCookieLight />{isBtnThree && <div className='w-30 bg-Charchol text-slate-50 ml-[-50px] mr-[-50px]'>Background options</div>}</button>
+        <button onMouseEnter={() => setIsBtnFour(true)} onMouseLeave={() => setIsBtnFour(false)}  className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><FaRegImage />{isBtnFour && <div className='w-16 bg-Charchol text-slate-50 ml-[-30px]'>Add image</div>}</button>
+        <button onMouseEnter={() => setIsBtnFive(true)} onMouseLeave={() => setIsBtnFive(false)}  className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BiArchiveIn />{isBtnFive && <div className='w-12S bg-Charchol text-slate-50 ml-[-20px]'>Archive</div>}</button>
+        <div onMouseEnter={() => setIsBtnSix(true)} onMouseLeave={() => setIsBtnSix(false)}  onClick={toggleMenu} ref={btnRef} className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BsThreeDotsVertical />{isBtnSix && <div className='w-8 bg-Charchol text-slate-50 ml-[-10px] py-[2px] px-[4px] text-[12px]'>More</div>}
         <div className='z-50' ref={menuRef}>{ isMenuVisible && <Menu onDelete={() => handleDelete(note.id)} onAddLabel={() => addLabel()} btnRef={btnAddLabelRef} />}
         <div className='z-50' ref={addLabelRef}> { isAddLabelVisible && !isMenuVisible &&  <LabelNote />} </div> </div></div> 
       </div>
