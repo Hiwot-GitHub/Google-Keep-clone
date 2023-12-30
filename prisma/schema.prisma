@@ -65,7 +65,7 @@ model Note {
   ownerid String
   owner User @relation(fields: [ownerid], references: [id], onDelete: Cascade)
   labels  Label[]  @relation("NoteLabel")
-  noteLabels NoteLabel[]
+  notelabel NoteLabel[] 
 
 }
 
@@ -73,14 +73,20 @@ model Label {
    id Int @id @default(autoincrement())
    name String @unique
    notes Note[]  @relation("NoteLabel")
-   noteLabels NoteLabel[]
+   notelabel NoteLabel[]
 }
 
 model NoteLabel{
+  id Int @id @default(autoincrement()) 
   noteId Int
   labelId Int
-  note    Note @relation(fields: [noteId], references: [id])
-  label   Label @relation(fields: [labelId], references: [id])
+  note Note @relation(fields: [noteId], references: [id])
+  label Label @relation(fields: [labelId],references: [id])
 
- @@id([noteId, labelId])
+  @@unique([noteId,labelId], name: "unique_note_label")
+
 }
+
+
+
+  

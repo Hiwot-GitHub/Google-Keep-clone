@@ -75,7 +75,7 @@ const  CreateNote = () => {
           body: JSON.stringify({
             title: `${title}`,
             content: `${inputValue}`,
-            ownerid:  'clq2cwxqd000011xj6k46km6r'
+            ownerid:  'clqqko8yq0000uv7ir4pnx3cs'
           }),
 
         });
@@ -231,8 +231,6 @@ const handleUpdate = (event: { preventDefault: () => void; }, note_id: Number) =
       setMenuVisible(false);
       setAddLabelVisible(true);
       setIsBtnSix(false);
-      
-   
   };
 
 
