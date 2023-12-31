@@ -15,6 +15,7 @@ const config: Config = {
       },
       colors:{
         ShuterGrey:'#5F6368',
+        ShuterGreyLight: '#f6f7f7',
         AliceBlue: '#F1F3F4',
         BlackRussian: '#202124',
         Oasis: '#FEEFCE',

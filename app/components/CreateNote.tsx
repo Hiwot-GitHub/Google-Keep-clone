@@ -287,8 +287,8 @@ const handleUpdate = (event: { preventDefault: () => void; }, note_id: Number) =
         <button onMouseEnter={() => setIsBtnFour(true)} onMouseLeave={() => setIsBtnFour(false)}  className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><FaRegImage />{isBtnFour && <div className='w-16 bg-Charchol text-slate-50 ml-[-30px]'>Add image</div>}</button>
         <button onMouseEnter={() => setIsBtnFive(true)} onMouseLeave={() => setIsBtnFive(false)}  className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BiArchiveIn />{isBtnFive && <div className='w-12S bg-Charchol text-slate-50 ml-[-20px]'>Archive</div>}</button>
         <div onMouseEnter={() => setIsBtnSix(true)} onMouseLeave={() => setIsBtnSix(false)}  onClick={toggleMenu} ref={btnRef} className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BsThreeDotsVertical />{isBtnSix && <div className='w-8 bg-Charchol text-slate-50 ml-[-10px] py-[2px] px-[4px] text-[12px]'>More</div>}
-        <div className='z-50' ref={menuRef}>{ isMenuVisible && <Menu onDelete={() => handleDelete(note.id)} onAddLabel={() => addLabel()} btnRef={btnAddLabelRef} />}
-        <div className='z-50' ref={addLabelRef}> { isAddLabelVisible && !isMenuVisible &&  <LabelNote />} </div> </div></div> 
+        <div className='z-50' ref={menuRef} onClick={(e) => e.stopPropagation()}>{ isMenuVisible && <Menu onDelete={() => handleDelete(note.id)} onAddLabel={() => addLabel()} btnRef={btnAddLabelRef} />}
+        <div className='z-50' ref={addLabelRef} onClick={(e) => e.stopPropagation()}> { isAddLabelVisible && !isMenuVisible &&  <LabelNote noteId={note.id} />} </div> </div> </div>
       </div>
       </div>
     </div>
