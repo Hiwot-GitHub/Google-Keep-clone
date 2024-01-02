@@ -1,9 +1,11 @@
 'use client';
-import React, { SetStateAction, useEffect } from "react";
+import React, { SetStateAction, useEffect, FormEvent, ChangeEvent } from "react";
 import { CiSearch } from "react-icons/ci";
 import { useState } from "react";
 import { IoIosAdd } from "react-icons/io";
 import { Label } from "@prisma/client";
+import { prisma } from "@/prisma/client";
+import { number } from "zod";
 
 const LabelNote = (props:{noteId:{}}) => {
   const [newLabel, setNewLabel] = useState('');
@@ -29,24 +31,39 @@ const LabelNote = (props:{noteId:{}}) => {
     setNewLabel(event.target.value);
   }
 
-  const handleCreateLabel = (event:{preventDefault: () => void; }) => {
-    event.preventDefault();
-    let label: { id: number; name: string; } | undefined;
-    label = labels.find((label) => label.name === newLabel);
+  const handleCreateLabel = (arg: React.FormEvent<HTMLButtonElement> | number) => {
+    let body: RequestInit | undefined;
+  if (typeof arg === 'number'){
+      const label_Id = arg;
+      body = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          noteId: props.noteId,
+          labelId: label_Id,
+         })
+      
+        }
+    } else{
+      const event = arg;
+      if (event as React.FormEvent<HTMLButtonElement>){
+        event.preventDefault();
+        body = {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            name: newLabel,
+            noteId: props.noteId,
+           })
+        
+          }
+      }
+    }
     
 
     const postLabel = async () => {
       try{
-      const response = await fetch('http://localhost:3000/api/NoteLabel', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          name: newLabel,
-          noteId: props.noteId,
-          labelId: label?.id
-         }),
-      
-        });
+      const response = await fetch('http://localhost:3000/api/NoteLabel', body);
         if(!response.ok){
           throw new Error('Failed to create a new label');
         }
@@ -76,7 +93,7 @@ const LabelNote = (props:{noteId:{}}) => {
         </form>
         <div className="w-[225px] h-[262px] py-[6px] px-0">
           {labels.map((label) => {
-           return  <DisplayLabel key={label.id} label={label} />
+           return  <DisplayLabel key={label.id} label={label} createLabel={handleCreateLabel} />
           })}
         </div>
          
@@ -86,12 +103,15 @@ const LabelNote = (props:{noteId:{}}) => {
   }
 
   //This component displays an existing label
-  const DisplayLabel: React.FC<{label:Label}> = ({label}) => {
+  const DisplayLabel: React.FC<{label:Label; createLabel: (arg: React.FormEvent<HTMLButtonElement> | number) => void }> = ({label, createLabel}) => {
     const [isChecked, setIsChecked] = useState(false);
     const ToggleCheckBox = () => {
       setIsChecked(!isChecked)
+      if(isChecked){
+        createLabel(label.id);
+      }
       
-    }
+    };
     return(
       <div className="w-[209px] h-[29px] pt-[5px] pr-[10px] pb-[3px] pl-[10px] flex">
            <div className="w-[18px] h-[18px] flex align-middle"><input type="checkbox" id={label.id.toString()} onClick={() => ToggleCheckBox} /></div>
