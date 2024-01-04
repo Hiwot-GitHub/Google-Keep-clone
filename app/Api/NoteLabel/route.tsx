@@ -7,8 +7,8 @@ import { Label } from "@prisma/client";
 
 // Getting all 
 export async function GET(request:NextRequest) {
-    const labels = await prisma.noteLabel.findMany();
-    return NextResponse.json(labels);
+    const notelabels = await prisma.noteLabel.findMany();
+    return NextResponse.json(notelabels);
     
 }
 

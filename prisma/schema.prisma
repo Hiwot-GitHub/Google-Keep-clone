@@ -71,7 +71,7 @@ model Note {
 
 model Label {
    id Int @id @default(autoincrement())
-   name String @unique
+   name String 
    notes Note[]  @relation("NoteLabel")
    notelabel NoteLabel[]
 }

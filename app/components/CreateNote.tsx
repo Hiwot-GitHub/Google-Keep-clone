@@ -22,7 +22,7 @@ import Label from './Label';
 
 
 interface Note{
-  id: Number,
+  id: number,
   title: string,
   content: string,
   ownerid: string
