@@ -17,7 +17,8 @@ import Modal from 'react-modal';
 import { useSession } from 'next-auth/react';
 import Menu from './Menu';
 import LabelNote from './LabelNote';
-import Label from './Label';
+import DisplayLabel from './DisplayLabel';
+import { Label } from "@prisma/client";
 
 
 
@@ -35,6 +36,7 @@ const  CreateNote = () => {
   const [title, setTitle] = useState('');
   const [notes, setNotes] = useState<Note[]>([]);
   const {status, data: session} = useSession();
+  const inputRef = useRef<HTMLDivElement>(null);
  
  
 
@@ -55,6 +57,19 @@ const  CreateNote = () => {
     getNotes();
    
   },[notes])
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (inputRef.current && isFocused && !inputRef.current.contains(event.target as Node)){
+        handleSubmit();
+      }
+    }
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    }
+  })
  
   
   const handleInputChange = (event: { target: { value: SetStateAction<string>; }; }) => {
@@ -63,8 +78,11 @@ const  CreateNote = () => {
   const handleTitleChange = (event: { target: { value: SetStateAction<string>; }; }) => {
     setTitle(event.target.value);
   }
-  const handleSubmit = (event: { preventDefault: () => void; }) =>{
-    event.preventDefault();
+  const handleSubmit = async(event?: { preventDefault: () => void; }) =>{
+    if (event){
+      event.preventDefault();
+    }
+   
     //I should create note object by sending POST request and calling getNotes function to refresh the data.
     setIsFocused(false);
     const postNote = async () => {
@@ -104,7 +122,7 @@ const  CreateNote = () => {
     return(
         <>
         <div className='flex flex-col w-full h-full ml-70 mt-4'>
-            <div className='flex-1 flex flex-col  h-auto bg-white mx-auto my-4 rounded-md shadow-lg justify-start items-center'>
+            <div ref={inputRef} className='flex-1 flex flex-col  h-auto bg-white mx-auto my-4 rounded-md shadow-lg justify-start items-center'>
                 <form onSubmit={handleSubmit} className='w-full'>
                 <div className={!isFocused ?'hidden':'block'}>
                 <input type='text' id='title' className='w-full px-4 py-2 focus:outline-none' value={title} onChange={handleTitleChange} placeholder='Title'/></div>
@@ -157,6 +175,7 @@ const DisplayNote: React.FC<{note: Note}> = ({note})  => {
   const btnRef = useRef<HTMLDivElement>(null);
   const addLabelRef = useRef<HTMLDivElement>(null);
   const btnAddLabelRef = useRef<HTMLButtonElement>(null);
+  //const [checked, setChecked] = useState<Label[]>([]);
 
   const openModal = () =>{
     setIsModalOpen(true);
@@ -260,6 +279,10 @@ const handleUpdate = (event: { preventDefault: () => void; }, note_id: Number) =
   }, [isMenuVisible, isAddLabelVisible]);
 
 
+  //const handleChecked = async(data: SetStateAction<Label[]>) =>{
+   // setChecked(data);
+  //}
+
 
 
   return (
@@ -276,7 +299,10 @@ const handleUpdate = (event: { preventDefault: () => void; }, note_id: Number) =
 
        {/* Below  is the code to display label if the not has any label*/}
       <div className='w-[238px] h-10 py-[5px] px-[10px] flex mt-3'>
-        <Label />
+      {/*  {checked.map((label) => {
+           return <DisplayLabel  labelname={label.name}/>
+        })} */}
+       
       </div>
 
       <div className={`hidden absolute group-hover:block group-active:block mt-[114px]`}>
@@ -288,7 +314,7 @@ const handleUpdate = (event: { preventDefault: () => void; }, note_id: Number) =
         <button onMouseEnter={() => setIsBtnFive(true)} onMouseLeave={() => setIsBtnFive(false)}  className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BiArchiveIn />{isBtnFive && <div className='w-12S bg-Charchol text-slate-50 ml-[-20px]'>Archive</div>}</button>
         <div onMouseEnter={() => setIsBtnSix(true)} onMouseLeave={() => setIsBtnSix(false)}  onClick={toggleMenu} ref={btnRef} className='w-[18px] h-[18px] hover:bg-AliceBlue rounded-full' ><BsThreeDotsVertical />{isBtnSix && <div className='w-8 bg-Charchol text-slate-50 ml-[-10px] py-[2px] px-[4px] text-[12px]'>More</div>}
         <div className='z-50' ref={menuRef} onClick={(e) => e.stopPropagation()}>{ isMenuVisible && <Menu onDelete={() => handleDelete(note.id)} onAddLabel={() => addLabel()} btnRef={btnAddLabelRef} />}
-        <div className='z-50' ref={addLabelRef} onClick={(e) => e.stopPropagation()}> { isAddLabelVisible && !isMenuVisible &&  <LabelNote noteId={note.id} />} </div> </div> </div>
+        <div className='z-50' ref={addLabelRef} onClick={(e) => e.stopPropagation()}> { isAddLabelVisible && !isMenuVisible &&  <LabelNote noteId={note.id}  />} </div> </div> </div>
       </div>
       </div>
     </div>

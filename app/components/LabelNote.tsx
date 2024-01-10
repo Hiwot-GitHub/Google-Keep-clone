@@ -14,6 +14,7 @@ const LabelNote = (props:{noteId: number}) => {
   const [filltered, setFilltered] = useState<NoteLabel[]>([]);  // to store labeles of the current note to enable prechecked inputboxes
   const [preCheckedLabels, setPreCheckedLabels] = useState<number[]>([]);
 
+
   useEffect(() => {
     const getLabels = async () => {
       try{
@@ -27,7 +28,11 @@ const LabelNote = (props:{noteId: number}) => {
         console.log(error);
       }
     };
-    getLabels();
+    const updateLabel = async () => {
+      await getLabels();
+    }
+    updateLabel();
+    
   },[labels])
 
 
@@ -45,21 +50,29 @@ const LabelNote = (props:{noteId: number}) => {
       }catch(error){
         console.log(error)
       }
-     
+
     }
-    getNotLabels();
+    
+    const updateState = async () => {
+      await getNotLabels();
+
     setFilltered(notelabels.filter((notelabel) => {
       if(notelabel.noteId === props.noteId){
         return notelabel;
-      } // return all notelabels that are associated with the current note
-      
+      } // return all notelabels that are associated with the current note 
     }));
-   setPreCheckedLabels(filltered.map((notelabel) => {
+
+    setPreCheckedLabels(filltered.map((notelabel) => {
       return notelabel.labelId
     })
    )
+   
+  }
+  updateState();
   
-  }) 
+  
+  },[notelabels]) 
+
 
 
   const handleLabelInpuChange = (event:{target:{value: SetStateAction<string> }; }) => {
@@ -67,7 +80,7 @@ const LabelNote = (props:{noteId: number}) => {
   }
 
   //adding Label to a note can be done when a new label is created or from an existing label 
-  const handleCreateLabel = (arg: React.FormEvent<HTMLButtonElement> | number) => {
+  const handleCreateLabel = async(arg: React.FormEvent<HTMLButtonElement> | number) => {
     let body: RequestInit | undefined;
   if (typeof arg === 'number'){
       const label_Id = arg;
@@ -95,7 +108,7 @@ const LabelNote = (props:{noteId: number}) => {
           }
       }
     }
-    
+ 
 
     const postLabel = async () => {
       try{
@@ -111,6 +124,31 @@ const LabelNote = (props:{noteId: number}) => {
     }
     postLabel();
     setNewLabel('');
+  }
+
+  const handleDeleteLabel = async(label_id: number) => {
+    const notelabel_Id = filltered.filter((notelabel) => 
+      notelabel.labelId === label_id).map((notelabel) => notelabel.id);
+      
+    if (notelabel_Id.length === 0){
+      return;
+    }
+    const deleteLabel = async () => {
+      try{
+        const response = await fetch(`http://localhost:3000/api/NoteLabel/${notelabel_Id[0]!.toString()}`,{
+          method: 'DELETE',
+          headers: {'Content-Type': 'application/json'},
+        });
+        if (!response.ok){
+          throw new Error ('Failed to delete label');
+        }
+        
+      }catch(error){
+        console.log(error);
+      }
+    }
+    deleteLabel();
+   
   }
 
   return (
@@ -129,7 +167,7 @@ const LabelNote = (props:{noteId: number}) => {
         </form>
         <div className="w-[225px] h-[162px] overflow-y-auto overflow-x-hidden py-[6px] px-0 bg-white ">
           {labels.map((label) => {
-           return  <DisplayLabel key={label.id} label={label} createLabel={handleCreateLabel} isChecked={preCheckedLabels.includes(label.id)} />
+           return  <DisplayLabel key={label.id} label={label} createLabel={handleCreateLabel} isChecked={preCheckedLabels.includes(label.id)} deleteLabel={handleDeleteLabel} />
           })}
         </div>
          
@@ -139,7 +177,7 @@ const LabelNote = (props:{noteId: number}) => {
   }
 
   //This component displays an existing label
-  const DisplayLabel: React.FC<{label:Label; createLabel: (arg: React.FormEvent<HTMLButtonElement> | number) => void ; isChecked: boolean}> = ({label, createLabel, isChecked}) => {
+  const DisplayLabel: React.FC<{label:Label; createLabel: (arg: React.FormEvent<HTMLButtonElement> | number) => void ; isChecked: boolean; deleteLabel: (arg:number) => void;}> = ({label, createLabel, isChecked, deleteLabel}) => {
     const [checkedItems, setCheckedItems] = useState<{[key: number]: boolean}>({});
 
 
@@ -153,6 +191,9 @@ const LabelNote = (props:{noteId: number}) => {
     },[isChecked])
 
     const ToggleCheckBox = (label_Id:number) => {
+      if (checkedItems[label_Id]){
+        deleteLabel(label_Id);
+      }
       setCheckedItems((prevCheckedItems) => {
        const updatedCheckedItems = { 
         ...prevCheckedItems, 

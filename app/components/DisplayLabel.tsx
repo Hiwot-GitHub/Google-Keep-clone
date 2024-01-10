@@ -2,15 +2,16 @@
 import React from 'react';
 import { IoIosClose } from "react-icons/io";
 import { useState } from 'react';
+import { Label } from '@prisma/client';
 
 
 
-const Label = () => {
+const DisplayLabel: React.FC<{labelname: string}> = ({labelname}) => {
   const [isLabelActive, setIsLabelActive] = useState(false);
   const [isBtnActive, setIsBtnActive] = useState(false);
   return (
     <div onMouseEnter={() => setIsLabelActive(true)} onMouseLeave={() => setIsLabelActive(false)}>
-        <div className={`${isLabelActive? 'hidden':''} min-w-[12] w-auto h-6 py-[3px] px-[5px] bg-AliceBlue rounded-3xl '><div className='w-[37px]  p-[1px] text-[11px] text-DarkGrayishBlue`}>Bakary</div>
+        <div className={`${isLabelActive? 'hidden':''} min-w-[12] w-auto h-6 py-[3px] px-[5px] bg-AliceBlue rounded-3xl '><div className='w-[37px]  p-[1px] text-[11px] text-DarkGrayishBlue`}>{labelname}</div>
         {/* below is to what to replace label with when it is hovered */}
          <div className={`${isLabelActive?'block':'hidden'} w-[45.73px] h-6 py-[3px] px-[5px] bg-AliceBlue rounded-3xl`}>
            <div className='flex'>
@@ -22,4 +23,4 @@ const Label = () => {
   )
 }
 
-export default Label
+export default DisplayLabel;
