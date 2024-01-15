@@ -3,6 +3,7 @@ import Link from 'next/link';
 import {useState } from 'react';
 import { IoMdClose } from "react-icons/io";
 import { IoIosSearch } from "react-icons/io";
+import Image from 'next/image';
 
  
 export default function Heading() {
@@ -13,10 +14,10 @@ export default function Heading() {
 <div className='h-16 w-100% p-2 border-b-2 border-ShuterGrey flex '>
 <div className='min-w-[232px] h-12 flex'>
   <div className='h-12 w-12 mx-0 my-1 p-3'>
-    <img src='menu.png' />
+    <Image src='menu.png' alt='menu'/>
   </div>
   <a className='w-24.38 h-11 flex items-center'>
-  <img src='keep_logo.png' className='h-11 w-10 mt-0 ml-0 mr-0 mb-1'/>
+  <Image src='keep_logo.png' className='h-11 w-10 mt-0 ml-0 mr-0 mb-1' alt='logo'/>
   <span className='w-13.88 h-6 font-serif pt-0 pl-1 pr-0 pb-0 text-2xl text-ShuterGrey'>Keep</span>
   </a>
   

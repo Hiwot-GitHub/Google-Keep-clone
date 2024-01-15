@@ -162,7 +162,7 @@ const LabelNote = (props:{noteId: number}) => {
               
         </div>
        {newLabel && (<button type="submit" onClick={handleCreateLabel}><div className="w-[225px] h-[30px] bg-ShuterGreyLight pt-[5px] px-[10px] pb-[3px]">
-          <div className="w-[205px] h-[21px] flex"><div className="w-[18px] h-[18px]"><IoIosAdd /></div><div className="w-auto h-[17px] mx-0 mr-0 ml-[7px] pt-[2px] px-0 pb-0 text-[13px]">`Create "{newLabel}"</div></div>
+          <div className="w-[205px] h-[21px] flex"><div className="w-[18px] h-[18px]"><IoIosAdd /></div><div className="w-auto h-[17px] mx-0 mr-0 ml-[7px] pt-[2px] px-0 pb-0 text-[13px]">Create {newLabel}</div></div>
         </div></button>)}
         </form>
         <div className="w-[225px] h-[162px] overflow-y-auto overflow-x-hidden py-[6px] px-0 bg-white ">

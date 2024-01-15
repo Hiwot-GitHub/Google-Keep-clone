@@ -18,7 +18,7 @@ import { useSession } from 'next-auth/react';
 import Menu from './Menu';
 import LabelNote from './LabelNote';
 import DisplayLabel from './DisplayLabel';
-import { Label } from "@prisma/client";
+import { Label, NoteLabel } from "@prisma/client";
 
 
 
@@ -175,7 +175,7 @@ const DisplayNote: React.FC<{note: Note}> = ({note})  => {
   const btnRef = useRef<HTMLDivElement>(null);
   const addLabelRef = useRef<HTMLDivElement>(null);
   const btnAddLabelRef = useRef<HTMLButtonElement>(null);
-  //const [checked, setChecked] = useState<Label[]>([]);
+
 
   const openModal = () =>{
     setIsModalOpen(true);

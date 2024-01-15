@@ -11,6 +11,7 @@ import Heading from './components/Heading';
 
 
 
+
 export default function Home() {
   
   return (
@@ -22,19 +23,19 @@ export default function Home() {
     <nav className='flex max-w-[280px] h-full relative bg-white pt-2 px-0 pb-0'>
       <div className='w-20 h-auto flex-col '>
          <div className='flex w-12 h-12 my-0 ml-3 mr-0 items-center bg-Oasis rounded-full'><div className='w-12 h-6 py-0 px-3'>
-         <img src='bulb.svg' />
+         <Image src='bulb.svg' alt='bulb' />
           </div></div>
          <div className='flex w-12 h-12 my-0 ml-3 mr-0 items-center hover:bg-AliceBlue rounded-full'><div className='w-12 h-6 py-0 px-3'>
-         <img src='bell.svg'/>
+         <Image src='bell.svg' alt='reminder'/>
           </div></div>
          <div className='flex w-12 h-12 my-0 ml-3 mr-0 items-center hover:bg-AliceBlue rounded-full'><div className='w-12 h-6 py-0 px-3'>
-        <img src='label.svg'/>
+        <Image src='label.svg' alt='labels'/>
           </div></div>
          <div className='flex w-12 h-12 my-0 ml-3 mr-0 items-center hover:bg-AliceBlue rounded-full'><div className='w-12 h-6 py-0 px-3'>
-         <img src='edit.svg'/>
+         <Image src='edit.svg' alt='edit'/>
           </div></div>
          <div className='flex w-12 h-12 my-0 ml-3 mr-0 items-center hover:bg-AliceBlue rounded-full'><div className='w-12 h-6 py-0 px-3'>
-         <img src='trash.svg'/>
+         <Image src='trash.svg' alt='trash'/>
           </div></div>
       </div>
       <div className='hidden flex-col text-BlackRussian text-[14px] sm:block'>
