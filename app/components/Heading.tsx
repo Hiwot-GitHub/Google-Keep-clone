@@ -14,10 +14,10 @@ export default function Heading() {
 <div className='h-16 w-100% p-2 border-b-2 border-ShuterGrey flex '>
 <div className='min-w-[232px] h-12 flex'>
   <div className='h-12 w-12 mx-0 my-1 p-3'>
-    <Image src='menu.png' alt='menu'/>
+    <Image src='/menu.png' alt='menu' width={48} height={48}/>
   </div>
-  <a className='w-24.38 h-11 flex items-center'>
-  <Image src='keep_logo.png' className='h-11 w-10 mt-0 ml-0 mr-0 mb-1' alt='logo'/>
+  <a className='w-24 h-11 flex items-center'>
+  <Image src='/keep_logo.png' className='h-11 w-10 mt-0 ml-0 mr-0 mb-1' alt='logo' width={96} height={44}/>
   <span className='w-13.88 h-6 font-serif pt-0 pl-1 pr-0 pb-0 text-2xl text-ShuterGrey'>Keep</span>
   </a>
   

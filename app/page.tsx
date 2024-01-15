@@ -23,19 +23,19 @@ export default function Home() {
     <nav className='flex max-w-[280px] h-full relative bg-white pt-2 px-0 pb-0'>
       <div className='w-20 h-auto flex-col '>
          <div className='flex w-12 h-12 my-0 ml-3 mr-0 items-center bg-Oasis rounded-full'><div className='w-12 h-6 py-0 px-3'>
-         <Image src='bulb.svg' alt='bulb' />
+         <Image src='bulb.svg' alt='bulb' width={48} height={24} />
           </div></div>
          <div className='flex w-12 h-12 my-0 ml-3 mr-0 items-center hover:bg-AliceBlue rounded-full'><div className='w-12 h-6 py-0 px-3'>
-         <Image src='bell.svg' alt='reminder'/>
+         <Image src='bell.svg' alt='reminder' width={48} height={24} />
           </div></div>
          <div className='flex w-12 h-12 my-0 ml-3 mr-0 items-center hover:bg-AliceBlue rounded-full'><div className='w-12 h-6 py-0 px-3'>
-        <Image src='label.svg' alt='labels'/>
+        <Image src='label.svg' alt='labels' width={48} height={24} />
           </div></div>
          <div className='flex w-12 h-12 my-0 ml-3 mr-0 items-center hover:bg-AliceBlue rounded-full'><div className='w-12 h-6 py-0 px-3'>
-         <Image src='edit.svg' alt='edit'/>
+         <Image src='edit.svg' alt='edit' width={48} height={24} />
           </div></div>
          <div className='flex w-12 h-12 my-0 ml-3 mr-0 items-center hover:bg-AliceBlue rounded-full'><div className='w-12 h-6 py-0 px-3'>
-         <Image src='trash.svg' alt='trash'/>
+         <Image src='trash.svg' alt='trash' width={48} height={24} />
           </div></div>
       </div>
       <div className='hidden flex-col text-BlackRussian text-[14px] sm:block'>
