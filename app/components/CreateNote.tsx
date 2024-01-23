@@ -43,7 +43,7 @@ const  CreateNote = () => {
   useEffect(() => {
     const getNotes = async () => {
       try{
-        const response = await fetch('http://localhost:3000/api/Notes');
+        const response = await fetch('https://google-keep-clone-xi-six.vercel.app/api/Notes');
         if (!response.ok){
           throw new Error('Network error');
         }
@@ -87,7 +87,7 @@ const  CreateNote = () => {
     setIsFocused(false);
     const postNote = async () => {
       try{
-        const response = await fetch('http://localhost:3000/api/Notes', {
+        const response = await fetch('https://google-keep-clone-xi-six.vercel.app/api/Notes', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -183,7 +183,7 @@ const DisplayNote: React.FC<{note: Note}> = ({note})  => {
   }
 
   const handleDelete = (note_id: Number) => {
-    const url = `http://localhost:3000/api/Notes/${note_id.toString()}`;
+    const url = `https://google-keep-clone-xi-six.vercel.app/api/Notes/${note_id.toString()}`;
     
     const deleteNote = async () => {
       try{
@@ -211,7 +211,7 @@ const handleContentChange = (event: {target: {value: SetStateAction<string>; }; 
 
 const handleUpdate = (event: { preventDefault: () => void; }, note_id: Number) => {
   event.preventDefault();
-  const url = `http://localhost:3000/api/Notes/${note_id.toString()}`;
+  const url = `https://google-keep-clone-xi-six.vercel.app/api/Notes/${note_id.toString()}`;
 
   const updateNote = async () => {
     try{

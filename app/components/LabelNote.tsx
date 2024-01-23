@@ -18,7 +18,7 @@ const LabelNote = (props:{noteId: number}) => {
   useEffect(() => {
     const getLabels = async () => {
       try{
-        const response = await fetch('http://localhost:3000/api/Label');
+        const response = await fetch('https://google-keep-clone-xi-six.vercel.app/api/Label');
         if(!response.ok){
           throw new Error('Network error');
         }
@@ -41,7 +41,7 @@ const LabelNote = (props:{noteId: number}) => {
     
     const getNotLabels = async() => {
       try{
-        const response = await fetch('http://localhost:3000/api/NoteLabel');
+        const response = await fetch('https://google-keep-clone-xi-six.vercel.app/api/NoteLabel');
         if(!response.ok){
           throw new Error('Network error');
          }
@@ -112,7 +112,7 @@ const LabelNote = (props:{noteId: number}) => {
 
     const postLabel = async () => {
       try{
-      const response = await fetch('http://localhost:3000/api/NoteLabel', body);
+      const response = await fetch('https://google-keep-clone-xi-six.vercel.app/api/NoteLabel', body);
         if(!response.ok){
           throw new Error('Failed to create a new label');
         }
@@ -135,7 +135,7 @@ const LabelNote = (props:{noteId: number}) => {
     }
     const deleteLabel = async () => {
       try{
-        const response = await fetch(`http://localhost:3000/api/NoteLabel/${notelabel_Id[0]!.toString()}`,{
+        const response = await fetch(`https://google-keep-clone-xi-six.vercel.app/api/NoteLabel/${notelabel_Id[0]!.toString()}`,{
           method: 'DELETE',
           headers: {'Content-Type': 'application/json'},
         });
