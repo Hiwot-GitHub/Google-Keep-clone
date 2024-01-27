@@ -1,6 +1,7 @@
+'use client';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import {useState } from 'react';
+import {useRef, useState } from 'react';
 import { IoMdClose } from "react-icons/io";
 import { IoIosSearch } from "react-icons/io";
 import Image from 'next/image';
@@ -9,6 +10,18 @@ import Image from 'next/image';
 export default function Heading() {
     const {status, data: session} = useSession();
     const [isFocused, setIsFocused] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+    const btnRef = useRef<HTMLButtonElement | null>(null);
+    
+    const clearSearchTerm = () => {
+      setSearchTerm('');
+      const inputElement = document.getElementById('searchInput');
+      if (inputElement) {
+        inputElement.focus();
+      }
+     
+    };
+
 
     return (
 <div className='h-16 w-100% p-2 border-b-2 border-ShuterGrey flex '>
@@ -22,15 +35,15 @@ export default function Heading() {
   </a>
   
 </div>
-<div className={`hidden sm:block flex-grow max-w-lg h-12  pt-0 pr-7.5 pb-0 pl-2.5 border-2 rounded ${isFocused ? 'bg-white shadow-black-shadow-xl':'bg-AliceBlue'}`}>
+<div className={`hidden sm:flex flex-grow max-w-lg h-12  pt-0 pr-7.5 pb-0 pl-2.5 border-2 rounded ${isFocused ? 'bg-white shadow-black-shadow-xl':'bg-AliceBlue'}`}>
   <button className='w-14 h-11.5 py-0 px-1.25'>
     <IoIosSearch className='w-10 h-10 m-0.75 p-2' />
   </button>
-
-  <input type='text' className='h-11.5 py-auto px-0 border-0 mx-auto bg-AliceBlue focus:outline-none focus:bg-white transition-colors duration-0'
-  onFocus={() => setIsFocused(true)} onBlur={() => setIsFocused(false)} placeholder='Search' />
-   { isFocused && <button className='w-10 h-10 p-2 ml-auto mr-0 relative hover:bg-AliceBlue rounded-full'><IoMdClose /></button> }
-   
+ <div className="flex flex-grow">
+  <input type='text'  id="searchInput" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className='h-11.5 w-full px-0 border-0 mx-auto bg-AliceBlue focus:outline-none focus:bg-white transition-colors duration-0'
+  onFocus={() => setIsFocused(true)} onBlur={(e) =>{ if (e.relatedTarget !== btnRef.current){setIsFocused(false)}} } placeholder='Search' />
+   { isFocused && searchTerm && <button ref={btnRef} onClick={clearSearchTerm} className='w-10 h-10 p-2 ml-auto mr-0 relative hover:bg-AliceBlue rounded-full'><IoMdClose /></button> }
+   </div> 
 </div>
 <div className='block sm:hidden w-10 h-10 my-[3px] mx-[1px] p-2'>
 <button className=' w-14 h-11.5 py-0 px-1.25'>
